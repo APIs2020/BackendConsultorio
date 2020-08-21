@@ -12,13 +12,21 @@ var HistorialClinicoSchema = new mongoose.Schema({
     altura:String,
     grupoSan:String,
     fechaInicio:Date,
-    enfermedadesHereditarias:[Enfermedades],
+    /*enfermedadesHereditarias:[Enfermedades],
     estudios:[Estudios],
     internaciones:[Internaciones],
     medicamentos:[Medicamentos],
-    alergias:[Alergias],
-    comentarios:[Comentarios]
+    alergias:[Alergias],*/
+    comentarios:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:Comentarios
+        }
+    ]
 
 })
 
-HistorialClinicoSchema.plugin(mongoosePaginate)
+HistorialClinicoSchema.plugin(mongoosePaginate);
+const HistorialClinico = mongoose.model('HistoriaClinica', HistorialClinicoSchema);
+
+module.exports = HistorialClinico;

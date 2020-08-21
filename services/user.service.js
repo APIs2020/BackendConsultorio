@@ -1,6 +1,5 @@
 // Gettign the Newly created Mongoose Model we just created 
 var User = require('../models/User.model');
-var HistorialClinicoSchema = require('../models/HistClinica.model');
 
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
@@ -30,15 +29,6 @@ exports.getUsers = async function (query, page, limit) {
 }
 
 exports.createUser = async function (user) {
-    console.log("user data", user)
-    // Creating a new Monogoose Object for Historial Clinico
-    HistorialClinicoSchema.peso = user.historialClinico.peso
-    HistorialClinicoSchema.altura = user.historialClinico.altura
-    HistorialClinicoSchema.grupoSan = user.historialClinico.grupoSan
-    HistorialClinicoSchema.fechaInicio = user.historialClinico.fechaInicio
-    HistorialClinicoSchema.comentarios = user.historialClinico.comentarios
-    console.log("var HistCliSchema", HistorialClinicoSchema)
-
 
     // Creating a new Mongoose Object by using the new keyword
     var hashedPassword = bcrypt.hashSync(user.password, 8);
@@ -51,7 +41,7 @@ exports.createUser = async function (user) {
         pisoDepto:user.pisoDepto,
         telefono:user.tel,
         domicilio:user.domicilio,
-        historialClinico: HistorialClinicoSchema
+        historialClinico: user.historialClinico
     })
 
     try {

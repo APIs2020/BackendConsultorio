@@ -8,3 +8,7 @@ var ComentariosSchema = new mongoose.Schema({
 })
 
 ComentariosSchema.plugin(mongoosePaginate)
+
+const Comentario = mongoose.model('Comentario', ComentariosSchema);
+
+module.exports = Comentario;

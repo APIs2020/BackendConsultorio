@@ -1,5 +1,4 @@
 var HistCliService = require('../services/histCli.service');
-const HistCliSchema = require('../models/HistClinica.model');
 
 // Saving the context of this module inside the _the variable
 _this = this;
@@ -11,7 +10,7 @@ exports.getHistClinicas = async function (req, res, next) {
     var page = req.query.page ? req.query.page : 1
     var limit = req.query.limit ? req.query.limit : 10;
     try {
-        var histClinicas = await HistCliService.getHistClinicas({}, page, limit)
+        var histClinicas = await HistCliService.getHistorialesClinicos({}, page, limit)
         // Return the Users list with the appropriate HTTP password Code and Message.
         return res.status(200).json({status: 200, data: histClinicas, message: "Succesfully Historias Clinicas Recieved"});
     } catch (e) {
@@ -22,22 +21,31 @@ exports.getHistClinicas = async function (req, res, next) {
 
 exports.createHistClinica = async function (req, res, next) {
     // Req.Body contains the form submit values.
-    console.log("llegue al controller",req.body)
-    var HistClinica = {
-        peso:req.body.peso,
-        altura:req.body.altura,
-        fechaNac:req.body.fechaNac,
-        grupoSan:req.body.grupoSan,
-        fechaInicio:req.body.fechaInicio
+    console.log("BODY REQ CREATE HIST CLINICA",req.body)
+    if(req.body == null){
+        var HistorialClinica = {
+            peso: "",
+            altura: "",
+            grupoSan: "",
+            fechaInicio: ""
+        }
+    } else {
+        var HistorialClinica = {
+            peso: req.body.peso,
+            altura: req.body.altura,
+            grupoSan: req.body.grupoSan,
+            fechaInicio: req.body.fechaInicio
+        }
     }
+    console.log("var HistorialClinia")
     try {
         // Calling the Service function with the new object from the Request Body
-        var createdHistClinica = await HistCliService.createHistClinica(HistClinica)
-        return res.status(201).json({token: createdHistClinica, message: "Succesfully Created Historia Clinica"})
+        var createdHistorialClinica = await HistCliService.createHistClinica(HistorialClinica)
+        return res.status(201).json({token: createdHistorialClinica, message: "Succesfully Created Historial Clinico"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
         console.log(e)
-        return res.status(400).json({status: 400, message: "User Creation was Unsuccesfull"})
+        return res.status(400).json({status: 400, message: "Historial Clinico Creation was Unsuccesfull"})
     }
 }
 

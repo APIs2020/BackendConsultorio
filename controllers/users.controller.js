@@ -1,5 +1,6 @@
 var UserService = require('../services/user.service');
-
+var HistorialClinicoService = require('../services/histCli.service');
+var HistorialClinicoController = require('./histCli.controller');
 // Saving the context of this module inside the _the variable
 _this = this;
 
@@ -21,16 +22,21 @@ exports.getUsers = async function (req, res, next) {
 
 exports.createUser = async function (req, res, next) {
 
-
+    
 
     // Req.Body contains the form submit values.
-    var historialClinico = {
+    /*var historialClinico = {
         peso: req.body.historialClinico.peso,
         altura: req.body.historialClinico.altura,
         grupoSan:req.body.historialClinico.grupoSan,
         fechaInicio: req.body.historialClinico.fechaInicio,
         comentarios: req.body.historialClinico.comentarios,
-    }
+    }*/
+
+    console.log("HISTORIAL CLINICO REQUIRE",req.historialClinico)
+    var historialClinico = await HistorialClinicoService.createHistClinica(req.historialClinico);
+    //console.log("VAR HISTORIAL CLINICO", historialClinico);
+
     var User = {
         name: req.body.name,
         email: req.body.email,

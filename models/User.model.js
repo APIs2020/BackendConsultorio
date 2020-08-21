@@ -1,6 +1,6 @@
 var mongoose = require('mongoose')
 var mongoosePaginate = require('mongoose-paginate')
-var HistorialClinico = require('./HistClinica.model')
+var HistorialClinico = require('./HistorialClinico.model')
 
 
 var UserSchema = new mongoose.Schema({
@@ -12,7 +12,10 @@ var UserSchema = new mongoose.Schema({
     password: String,
     telefono:String,
     domicilio:String,
-    historialClinico: HistorialClinico
+    historialClinico: [{
+        type:mongoose.Schema.Types.ObjectId,    
+        ref:HistorialClinico,
+    }]
 })
 
 UserSchema.plugin(mongoosePaginate)

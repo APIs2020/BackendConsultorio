@@ -1,5 +1,6 @@
 // Gettign the Newly created Mongoose Model we just created 
-var HistClinica = require('../models/HistClinica.model');
+var HistorialClinico = require('../models/HistorialClinico.model');
+var ComentarioService = require('./comentarios.service');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 
@@ -7,7 +8,7 @@ var jwt = require('jsonwebtoken');
 _this = this
 
 // Async function to get the Historia Clinica List
-exports.getHistClinicas = async function (query, page, limit) {
+exports.getHistorialesClinicos = async function (query, page, limit) {
 
     // Options setup for the mongoose paginate
     var options = {
@@ -26,19 +27,35 @@ exports.getHistClinicas = async function (query, page, limit) {
     }
 }
 
-exports.createHistClinica = async function (HistClinica) {
+exports.createHistClinica = async function (HistorialClinico) {
+
+    //create doc 'comentarios'
+    var comentarios = await ComentarioService.createComentario();
+
     // Creating a new Mongoose Object by using the new keyword
-    var hashedPassword = bcrypt.hashSync(HistCli.password, 8);
-    var newHistCli = new HistCli({
-        peso:HistCli.peso,
-        altura:HistCli.altura,
-        fechaNac:HistCli.fechaNac,
-        grupoSan:HistCli.grupoSan,
-        fechaInicio:HistCli.fechaInicio
-        //histCli:user.histCli
-    })
+    if(HistorialClinico == null){
+        var newHistCli = new HistorialClinico({
+            peso: "",
+            altura: "", 
+            fechaNac: "",
+            grupoSan: "",
+            fechaInicio: "",
+            comentarios: comentarios
+        })
+
+    } else {
+        var newHistCli = new HistorialClinico({
+            peso:HistorialClinico.peso,
+            altura:HistorialClinico.altura, 
+            fechaNac:HistorialClinico.fechaNac,
+            grupoSan:HistorialClinico.grupoSan,
+            fechaInicio:HistorialClinico.fechaInicio
+        })
+    }
 
     try {
+
+        console.log("OBJECT ID NEW HISTORIAL CLINICO", newHistCli.ObjectId);
         // Saving the Historia Clinica 
         var savedHistCli = await newHistCli.save();
         var token = jwt.sign({
@@ -46,7 +63,7 @@ exports.createHistClinica = async function (HistClinica) {
         }, process.env.SECRET, {
             expiresIn: 86400 // expires in 24 hours
         });
-        return token;
+        return savedHistCli._id;
     } catch (e) {
         // return a Error message describing the reason 
         console.log(e)    
