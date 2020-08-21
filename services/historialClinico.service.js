@@ -1,6 +1,11 @@
 // Gettign the Newly created Mongoose Model we just created 
 var HistorialClinico = require('../models/HistorialClinico.model');
 var ComentarioService = require('./comentario.service');
+var EstudioService = require('./estudio.service');
+var EnfermedadService = require('./enfermedad.service');
+var AlergiaService = require('./alergia.service');
+var InternacionService = require('./internacion.service');
+var MedicamentoService = require('./medicamento.service');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
 const Comentario = require('../models/Comentario.model');
@@ -31,19 +36,57 @@ exports.getHistorialesClinicos = async function (query, page, limit) {
 exports.createHistClinica = async function (historialClinico) {
 
     //create doc 'comentarios'
-    //console.log("ARRAY COMENTARIOS", historialClinico.comentarios)
     var comentarios = [];
-
     for(var i = 0; i < historialClinico.comentarios.length; i++) {
-        
         var obj = historialClinico.comentarios[i];
-        
         var comentario = await ComentarioService.createComentario(obj);
-        
         comentarios.push(comentario);
     }
 
-    //console.log("ARRAY ID OBJECTS DE COMENTARIOS", comentarios);
+    //create doc 'medicamentos'
+
+    var medicamentos = [];
+    for(var i = 0; i < historialClinico.medicamentos.length; i++) {
+        var obj = historialClinico.medicamentos[i];
+        var medicamento = await MedicamentoService.createMedicamento(obj);
+        medicamentos.push(medicamento);
+    }
+    
+    //create doc 'estudios'
+
+    var estudios = [];
+    for(var i = 0; i < historialClinico.estudios.length; i++) {
+        var obj = historialClinico.estudios[i];
+        var estudio = await EstudioService.createEstudio(obj);
+        estudios.push(estudio);
+    }
+
+    //create doc 'alergias'
+
+    var alergias = [];
+    for(var i = 0; i < historialClinico.alergias.length; i++) {
+        var obj = historialClinico.alergias[i];
+        var alergia = await AlergiaService.createAlergia(obj);
+        alergias.push(alergia);
+    }
+
+    //create doc 'enfermedades'
+    
+    var enfermedades = [];
+    for(var i = 0; i < historialClinico.enfermedades.length; i++) {
+        var obj = historialClinico.enfermedades[i];
+        var enfermedad = await EnfermedadService.createEnfermedad(obj);
+        enfermedades.push(enfermedad);
+    }
+
+    //create doc 'internaciones'
+
+    var internaciones = [];
+    for(var i = 0; i < historialClinico.internaciones.length; i++) {
+        var obj = historialClinico.internaciones[i];
+        var internacion = await InternacionService.createInternacion(obj);
+        internaciones.push(internacion);
+    }
 
     
 
@@ -55,7 +98,12 @@ exports.createHistClinica = async function (historialClinico) {
             fechaNac: "",
             grupoSan: "",
             fechaInicio: "",
-            comentarios: comentarios
+            comentarios: "",
+            estudios:"",
+            enfermedades:"",
+            alergias:"",
+            medicamentos:"",
+            internaciones:"",
         })
 
     } else {
@@ -64,13 +112,19 @@ exports.createHistClinica = async function (historialClinico) {
             altura:historialClinico.altura, 
             fechaNac:historialClinico.fechaNac,
             grupoSan:historialClinico.grupoSan,
-            fechaInicio:historialClinico.fechaInicio
+            fechaInicio:historialClinico.fechaInicio,
+            comentarios: comentarios,
+            estudios: estudios,
+            enfermedades: enfermedades,
+            alergias:alergias,
+            medicamentos:medicamentos,
+            internaciones:internaciones
         })
     }
 
     try {
 
-        console.log("OBJECT ID NEW HISTORIAL CLINICO", newHistCli.ObjectId);
+        //console.log("OBJECT ID NEW HISTORIAL CLINICO", newHistCli.ObjectId);
         // Saving the Historia Clinica 
         var savedHistCli = await newHistCli.save();
         var token = jwt.sign({

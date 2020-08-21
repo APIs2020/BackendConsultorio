@@ -12,3 +12,7 @@ var MedicamentosSchema = new mongoose.Schema({
 })
 
 MedicamentosSchema.plugin(mongoosePaginate)
+
+const Medicamento = mongoose.model('Medicamento', MedicamentosSchema);
+
+module.exports = Medicamento;

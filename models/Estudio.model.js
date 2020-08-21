@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var mongoosePaginate = require('mongoose-paginate')
 
 
-var EstudiosSchema = new mongoose.Schema({
+var EstudioSchema = new mongoose.Schema({
     fechaPedido:Date,
     fechaRealizado:Date,
     tipo:String,
@@ -10,4 +10,9 @@ var EstudiosSchema = new mongoose.Schema({
     resultado:String
 })
 
-EstudiosSchema.plugin(mongoosePaginate)
+EstudioSchema.plugin(mongoosePaginate)
+
+
+const Estudio = mongoose.model('Estudio', EstudioSchema);
+
+module.exports = Estudio;

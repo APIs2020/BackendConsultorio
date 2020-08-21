@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 var mongoosePaginate = require('mongoose-paginate')
 
 
-var EnfermedadesSchema = new mongoose.Schema({
+var EnfermedadSchema = new mongoose.Schema({
     tipo:String,
     nombre: String,
     sintomas: String,
@@ -10,4 +10,8 @@ var EnfermedadesSchema = new mongoose.Schema({
     fechaAlta: Date
 })
 
-EnfermedadesSchema.plugin(mongoosePaginate)
+EnfermedadSchema.plugin(mongoosePaginate)
+
+const Enfermedad = mongoose.model('Enfermedad', EnfermedadSchema);
+
+module.exports = Enfermedad;

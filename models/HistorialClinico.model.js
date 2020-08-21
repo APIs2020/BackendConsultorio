@@ -12,11 +12,42 @@ var HistorialClinicoSchema = new mongoose.Schema({
     altura:String,
     grupoSan:String,
     fechaInicio:Date,
-    /*enfermedadesHereditarias:[Enfermedades],
-    estudios:[Estudios],
-    internaciones:[Internaciones],
-    medicamentos:[Medicamentos],
-    alergias:[Alergias],*/
+    enfermedadesHereditarias:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:Enfermedades
+        }
+    ],
+    enfermedadesNoHereditarias:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:Enfermedades
+        }
+    ],
+    estudios:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:Estudios
+        }
+    ],
+    internaciones:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:Internaciones
+        }
+    ],
+    medicamentos:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:Medicamentos
+        }
+    ],
+    alergias:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:Alergias
+        }
+    ],
     comentarios:[
         {
             type:mongoose.Schema.Types.ObjectId,
