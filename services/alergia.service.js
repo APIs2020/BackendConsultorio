@@ -29,7 +29,7 @@ exports.getAlergias = async function (query, page, limit) {
 exports.createAlergia = async function (alergia) {
 
     // Creating a new Mongoose Object by using the new keyword
-    if(alergia == null){
+    if(alergia == undefined){
         var newAlergia = new Alergia({
             fechaDiagnostico:"",
             tipo: "",

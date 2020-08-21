@@ -6,9 +6,7 @@ var EnfermedadService = require('./enfermedad.service');
 var AlergiaService = require('./alergia.service');
 var InternacionService = require('./internacion.service');
 var MedicamentoService = require('./medicamento.service');
-var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
-const Comentario = require('../models/Comentario.model');
 
 // Saving the context of this module inside the _the variable
 _this = this
@@ -21,12 +19,14 @@ exports.getHistorialesClinicos = async function (query, page, limit) {
         page,
         limit
     }
+
+    console.log("QUERY HISTORIAL", query)
     // Try Catch the awaited promise to handle the error 
     try {
-        var HistCli = await HistCli.paginate(query, options)
+        var historialClinico = await HistorialClinico.paginate(query, options)
         // Return the Userd list that was retured by the mongoose promise
-        return HistCli;
-
+        return historialClinico;
+        
     } catch (e) {
         // return a Error message describing the reason 
         throw Error('Error while Paginating Historia Clinica');
@@ -63,6 +63,7 @@ exports.createHistClinica = async function (historialClinico) {
 
     //create doc 'alergias'
 
+   if(historialClinico.alergias != undefined){
     var alergias = [];
     for(var i = 0; i < historialClinico.alergias.length; i++) {
         var obj = historialClinico.alergias[i];
@@ -70,6 +71,7 @@ exports.createHistClinica = async function (historialClinico) {
         alergias.push(alergia);
     }
 
+   }
     //create doc 'enfermedades'
     
     var enfermedades = [];

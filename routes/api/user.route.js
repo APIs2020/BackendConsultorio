@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var UserController = require('../../controllers/users.controller');
+var HistorialClinicoController = require('../../controllers/historialClinico.controller');
 var Authorization = require('../../auth/authorization');
 
 
@@ -14,6 +15,7 @@ router.post('/login/', UserController.loginUser)
 router.get('/', Authorization, UserController.getUsers)
 router.put('/', Authorization, UserController.updateUser)
 router.delete('/:id', Authorization, UserController.removeUser)
+router.post('/historialClinico',Authorization, UserController.getHistorialClinicoByUser)
 
 // Export the Router
 module.exports = router;
