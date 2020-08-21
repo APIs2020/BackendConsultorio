@@ -1,5 +1,5 @@
 // Gettign the Newly created Mongoose Model we just created 
-var Comentario = require('../models/Comentarios.model');
+var Comentario = require('../models/Comentario.model');
 var jwt = require('jsonwebtoken');
 const { Mongoose } = require('mongoose');
 
@@ -30,7 +30,10 @@ exports.createComentario = async function (comentario) {
 
     // Creating a new Mongoose Object by using the new keyword
     if(comentario == null){
-        var newComentario = [];
+        var newComentario = new Comentario({
+            fecha:"",
+            descripcion:""
+        })
     } else {
         var newComentario = new Comentario({
             fecha: comentario.fecha,
@@ -40,7 +43,7 @@ exports.createComentario = async function (comentario) {
 
     try {
         // Saving the Comentario 
-        var savedComentario = await newComentario.push();
+        var savedComentario = await newComentario.save();
         var token = jwt.sign({
             id: savedComentario._id
         }, process.env.SECRET, {

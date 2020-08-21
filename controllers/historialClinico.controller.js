@@ -1,4 +1,4 @@
-var HistCliService = require('../services/histCli.service');
+var HistCliService = require('../services/historialClinico.service');
 
 // Saving the context of this module inside the _the variable
 _this = this;

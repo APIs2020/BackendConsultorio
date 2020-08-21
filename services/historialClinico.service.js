@@ -1,8 +1,9 @@
 // Gettign the Newly created Mongoose Model we just created 
 var HistorialClinico = require('../models/HistorialClinico.model');
-var ComentarioService = require('./comentarios.service');
+var ComentarioService = require('./comentario.service');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+const Comentario = require('../models/Comentario.model');
 
 // Saving the context of this module inside the _the variable
 _this = this
@@ -27,13 +28,27 @@ exports.getHistorialesClinicos = async function (query, page, limit) {
     }
 }
 
-exports.createHistClinica = async function (HistorialClinico) {
+exports.createHistClinica = async function (historialClinico) {
 
     //create doc 'comentarios'
-    var comentarios = await ComentarioService.createComentario();
+    //console.log("ARRAY COMENTARIOS", historialClinico.comentarios)
+    var comentarios = [];
+
+    for(var i = 0; i < historialClinico.comentarios.length; i++) {
+        
+        var obj = historialClinico.comentarios[i];
+        
+        var comentario = await ComentarioService.createComentario(obj);
+        
+        comentarios.push(comentario);
+    }
+
+    //console.log("ARRAY ID OBJECTS DE COMENTARIOS", comentarios);
+
+    
 
     // Creating a new Mongoose Object by using the new keyword
-    if(HistorialClinico == null){
+    if(historialClinico == null){
         var newHistCli = new HistorialClinico({
             peso: "",
             altura: "", 
@@ -45,11 +60,11 @@ exports.createHistClinica = async function (HistorialClinico) {
 
     } else {
         var newHistCli = new HistorialClinico({
-            peso:HistorialClinico.peso,
-            altura:HistorialClinico.altura, 
-            fechaNac:HistorialClinico.fechaNac,
-            grupoSan:HistorialClinico.grupoSan,
-            fechaInicio:HistorialClinico.fechaInicio
+            peso:historialClinico.peso,
+            altura:historialClinico.altura, 
+            fechaNac:historialClinico.fechaNac,
+            grupoSan:historialClinico.grupoSan,
+            fechaInicio:historialClinico.fechaInicio
         })
     }
 

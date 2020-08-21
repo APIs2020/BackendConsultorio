@@ -12,10 +12,10 @@ var UserSchema = new mongoose.Schema({
     password: String,
     telefono:String,
     domicilio:String,
-    historialClinico: [{
+    historialClinico: {
         type:mongoose.Schema.Types.ObjectId,    
         ref:HistorialClinico,
-    }]
+    }
 })
 
 UserSchema.plugin(mongoosePaginate)
