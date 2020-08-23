@@ -46,7 +46,7 @@ exports.createEnfermedad = async function (enfermedad) {
             fechaAlta: enfermedad.fechaAlta
         })
     }
-
+    
     try {
         // Saving the Enfermedad 
         var savedEnfermedad = await newEnfermedad.save();
