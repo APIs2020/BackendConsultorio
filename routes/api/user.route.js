@@ -14,6 +14,7 @@ router.post('/registration', UserController.createUser)
 router.post('/login/', UserController.loginUser)
 router.get('/', Authorization, UserController.getUsers)
 router.put('/', Authorization, UserController.updateUser)
+router.put('/modificarHistorialClinico', Authorization, UserController.updateHistorialClinicoUser)
 router.delete('/:id', Authorization, UserController.removeUser)
 router.post('/historialClinico',Authorization, UserController.getHistorialClinicoByUser)
 

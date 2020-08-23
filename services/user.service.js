@@ -78,6 +78,11 @@ exports.updateUser = async function (user) {
     oldUser.name = user.name
     oldUser.email = user.email
     oldUser.password = user.password
+    oldUser.dni = user.dni
+    oldUser.fechaNacimiento = user.fechaNacimiento
+    oldUser.pisoDepto = user.pisoDepto
+    oldUser.telefono = user.telefono
+    oldUser.domicilio = user.domicilio
     try {
         var savedUser = await oldUser.save()
         return savedUser;

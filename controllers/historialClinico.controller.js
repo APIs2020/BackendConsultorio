@@ -55,7 +55,7 @@ exports.createHistClinica = async function (req, res, next) {
     console.log("var HistorialClinia")
     try {
         // Calling the Service function with the new object from the Request Body
-        var createdHistorialClinica = await HistCliService.createHistClinica(HistorialClinica)
+        var createdHistorialClinica = await HistCliService.createHistorialClinico(HistorialClinica)
         return res.status(201).json({token: createdHistorialClinica, message: "Succesfully Created Historial Clinico"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
@@ -81,7 +81,7 @@ exports.updateHistClinica = async function (req, res, next) {
         fechaInicio: req.body.fechaInicio ? req.body.fechaInicio : null
     }
     try {
-        var updatedHistClinica = await HistCliService.updateHistClinica(HistClinica)
+        var updatedHistClinica = await HistCliService.updateHistorialClinico(HistClinica)
         return res.status(200).json({status: 200, data: updatedHistClinica, message: "Succesfully Updated Historia Clinica"})
     } catch (e) {
         return res.status(400).json({status: 400., message: e.message})
@@ -92,7 +92,7 @@ exports.removeHistClinica = async function (req, res, next) {
 
     var id = req.params.id;
     try {
-        var deleted = await HistCliService.deleteHistClinica(id);
+        var deleted = await HistCliService.deleteHistorialClinico(id);
         res.status(200).send("Succesfully Deleted... ");
     } catch (e) {
         return res.status(400).json({status: 400, message: e.message})

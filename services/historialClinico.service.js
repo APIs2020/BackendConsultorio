@@ -33,34 +33,39 @@ exports.getHistorialesClinicos = async function (query, page, limit) {
     }
 }
 
-exports.createHistClinica = async function (historialClinico) {
+exports.createHistorialClinico = async function (historialClinico) {
 
     //create doc 'comentarios'
-    var comentarios = [];
-    for(var i = 0; i < historialClinico.comentarios.length; i++) {
-        var obj = historialClinico.comentarios[i];
-        var comentario = await ComentarioService.createComentario(obj);
-        comentarios.push(comentario);
+    if(historialClinico.comentarios != undefined){
+        var comentarios = [];
+        for(var i = 0; i < historialClinico.comentarios.length; i++) {
+            var obj = historialClinico.comentarios[i];
+            var comentario = await ComentarioService.createComentario(obj);
+            comentarios.push(comentario);
+        }
     }
 
     //create doc 'medicamentos'
 
-    var medicamentos = [];
-    for(var i = 0; i < historialClinico.medicamentos.length; i++) {
-        var obj = historialClinico.medicamentos[i];
-        var medicamento = await MedicamentoService.createMedicamento(obj);
-        medicamentos.push(medicamento);
-    }
+    if(historialClinico.medicamentos != undefined){
+        var medicamentos = [];
+        for(var i = 0; i < historialClinico.medicamentos.length; i++) {
+            var obj = historialClinico.medicamentos[i];
+            var medicamento = await MedicamentoService.createMedicamento(obj);
+            medicamentos.push(medicamento);
+        }
+    }   
     
     //create doc 'estudios'
 
-    var estudios = [];
-    for(var i = 0; i < historialClinico.estudios.length; i++) {
-        var obj = historialClinico.estudios[i];
-        var estudio = await EstudioService.createEstudio(obj);
-        estudios.push(estudio);
+    if(historialClinico.estudios != undefined){
+        var estudios = [];
+        for(var i = 0; i < historialClinico.estudios.length; i++) {
+            var obj = historialClinico.estudios[i];
+            var estudio = await EstudioService.createEstudio(obj);
+            estudios.push(estudio);
+        }
     }
-
     //create doc 'alergias'
 
    if(historialClinico.alergias != undefined){
@@ -74,26 +79,29 @@ exports.createHistClinica = async function (historialClinico) {
    }
     //create doc 'enfermedades'
     
-    var enfermedades = [];
-    for(var i = 0; i < historialClinico.enfermedades.length; i++) {
-        var obj = historialClinico.enfermedades[i];
-        var enfermedad = await EnfermedadService.createEnfermedad(obj);
-        enfermedades.push(enfermedad);
+    if(historialClinico.enfermedades != undefined){
+        var enfermedades = [];
+        for(var i = 0; i < historialClinico.enfermedades.length; i++) {
+            var obj = historialClinico.enfermedades[i];
+            var enfermedad = await EnfermedadService.createEnfermedad(obj);
+            enfermedades.push(enfermedad);
+        }
     }
 
     //create doc 'internaciones'
 
-    var internaciones = [];
-    for(var i = 0; i < historialClinico.internaciones.length; i++) {
-        var obj = historialClinico.internaciones[i];
-        var internacion = await InternacionService.createInternacion(obj);
-        internaciones.push(internacion);
+    if(historialClinico.internaciones != undefined){
+        var internaciones = [];
+        for(var i = 0; i < historialClinico.internaciones.length; i++) {
+            var obj = historialClinico.internaciones[i];
+            var internacion = await InternacionService.createInternacion(obj);
+            internaciones.push(internacion);
+        }
     }
-
     
 
     // Creating a new Mongoose Object by using the new keyword
-    if(historialClinico == null){
+    if(historialClinico == undefined){
         var newHistCli = new HistorialClinico({
             peso: "",
             altura: "", 
@@ -142,7 +150,7 @@ exports.createHistClinica = async function (historialClinico) {
     }
 }
 
-exports.updateHistClinica = async function (histClinica) {
+exports.updateHistorialClinico = async function (histClinica) {
     var id = histClinica.id
     try {
         //Find the old Historia Clinica Object by the Id
@@ -158,6 +166,12 @@ exports.updateHistClinica = async function (histClinica) {
     oldHistClinica.peso = histClinica.name
     oldHistClinica.altura = histClinica.email
     oldHistClinica.fechaNac = histClinica.password
+    var comentarios = [];
+    for(var i = 0; i < historialClinico.comentarios.length; i++) {
+        var obj = historialClinico.comentarios[i];
+        var comentario = await ComentarioService.createComentario(obj);
+        comentarios.push(comentario);
+    }
     try {
         var savedHistCli = await oldHistClinica.save()
         return savedHistClinica;
@@ -166,7 +180,7 @@ exports.updateHistClinica = async function (histClinica) {
     }
 }
 
-exports.deleteHistClinica = async function (id) {
+exports.deleteHistorialClinico = async function (id) {
 
     // Delete the Historia Clinica
     try {
