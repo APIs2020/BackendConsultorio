@@ -25,7 +25,7 @@ exports.createUser = async function (req, res, next) {
 
     // Req.Body contains the form submit values.
 
-    //console.log("HISTORIAL CLINICO REQUIRE",req.body.historialClinico)
+    console.log("HISTORIAL CLINICO REQUIRE",req.body.historialClinico)
     var historialClinico = await HistorialClinicoService.createHistorialClinico(req.body.historialClinico);
 
     var User = {

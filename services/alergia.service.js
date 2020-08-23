@@ -87,7 +87,7 @@ exports.deleteAlergia = async function (id) {
 
     // Delete the User
     try {
-        var deleted = await alergia.remove({
+        var deleted = await Alergia.remove({
             _id: id
         })
         if (deleted.n === 0 && deleted.ok === 1) {

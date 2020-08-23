@@ -35,9 +35,31 @@ exports.getHistorialesClinicos = async function (query, page, limit) {
 
 exports.createHistorialClinico = async function (historialClinico) {
 
+    console.log("HISTORIAL CLINICO", historialClinico)
+
+    // Creating a new Mongoose Object by using the new keyword
+    if(historialClinico == undefined){
+        console.log("ENTRE UNDEFINED")
+        var newHistCli = new HistorialClinico({
+            peso: "",
+            altura: "", 
+            fechaNac: "",
+            grupoSan: "",
+            fechaInicio: "",
+            comentarios: [],
+            estudios:[],
+            enfermedades:[],
+            alergias:[],
+            medicamentos:[],
+            internaciones:[],
+        })
+
+    } else {
+
     //create doc 'comentarios'
+    var comentarios = [];
     if(historialClinico.comentarios != undefined){
-        var comentarios = [];
+        
         for(var i = 0; i < historialClinico.comentarios.length; i++) {
             var obj = historialClinico.comentarios[i];
             var comentario = await ComentarioService.createComentario(obj);
@@ -46,9 +68,9 @@ exports.createHistorialClinico = async function (historialClinico) {
     }
 
     //create doc 'medicamentos'
-
+    var medicamentos = [];
     if(historialClinico.medicamentos != undefined){
-        var medicamentos = [];
+        
         for(var i = 0; i < historialClinico.medicamentos.length; i++) {
             var obj = historialClinico.medicamentos[i];
             var medicamento = await MedicamentoService.createMedicamento(obj);
@@ -57,9 +79,9 @@ exports.createHistorialClinico = async function (historialClinico) {
     }   
     
     //create doc 'estudios'
-
+    var estudios = [];
     if(historialClinico.estudios != undefined){
-        var estudios = [];
+        
         for(var i = 0; i < historialClinico.estudios.length; i++) {
             var obj = historialClinico.estudios[i];
             var estudio = await EstudioService.createEstudio(obj);
@@ -67,9 +89,9 @@ exports.createHistorialClinico = async function (historialClinico) {
         }
     }
     //create doc 'alergias'
-
-   if(historialClinico.alergias != undefined){
     var alergias = [];
+    if(historialClinico.alergias != undefined){
+    
     for(var i = 0; i < historialClinico.alergias.length; i++) {
         var obj = historialClinico.alergias[i];
         var alergia = await AlergiaService.createAlergia(obj);
@@ -78,9 +100,9 @@ exports.createHistorialClinico = async function (historialClinico) {
 
    }
     //create doc 'enfermedades'
-    
+    var enfermedades = [];
     if(historialClinico.enfermedades != undefined){
-        var enfermedades = [];
+        
         for(var i = 0; i < historialClinico.enfermedades.length; i++) {
             var obj = historialClinico.enfermedades[i];
             var enfermedad = await EnfermedadService.createEnfermedad(obj);
@@ -89,34 +111,16 @@ exports.createHistorialClinico = async function (historialClinico) {
     }
 
     //create doc 'internaciones'
-
+    var internaciones = [];
     if(historialClinico.internaciones != undefined){
-        var internaciones = [];
+        
         for(var i = 0; i < historialClinico.internaciones.length; i++) {
             var obj = historialClinico.internaciones[i];
             var internacion = await InternacionService.createInternacion(obj);
             internaciones.push(internacion);
         }
     }
-    
-
-    // Creating a new Mongoose Object by using the new keyword
-    if(historialClinico == undefined){
-        var newHistCli = new HistorialClinico({
-            peso: "",
-            altura: "", 
-            fechaNac: "",
-            grupoSan: "",
-            fechaInicio: "",
-            comentarios: "",
-            estudios:"",
-            enfermedades:"",
-            alergias:"",
-            medicamentos:"",
-            internaciones:"",
-        })
-
-    } else {
+        console.log("ENTRE NORMAL")
         var newHistCli = new HistorialClinico({
             peso:historialClinico.peso,
             altura:historialClinico.altura, 
@@ -221,7 +225,7 @@ exports.deleteHistorialClinico = async function (id) {
 
     // Delete the Historia Clinica
     try {
-        var deleted = await histClinica.remove({
+        var deleted = await HistorialClinico.remove({
             _id: id
         })
         if (deleted.n === 0 && deleted.ok === 1) {
