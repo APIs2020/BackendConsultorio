@@ -19,20 +19,21 @@ exports.getHistClinicas = async function (req, res, next) {
     }
 }
 
-/*exports.getHistClinicasByUser = async function (req, res, next) {
+exports.getHistorialClinicoByUser = async function (req, res, next) {
 
     // Check the existence of the query parameters, If doesn't exists assign a default value
     var page = req.query.page ? req.query.page : 1
     var limit = req.query.limit ? req.query.limit : 10;
-    var filtro = {id_user = req.id_user};
+    var filtro = {_id : req.body._id};
     try {
-        var histClinicas = await HistCliService.getHistorialesClinicos({filtro}, page, limit)
+        var historialClinico = await HistorialClinicoService.getHistorialesClinicos(filtro, page, limit)
         // Return the Users list with the appropriate HTTP password Code and Message.
-        return res.status(200).json({status: 200, data: histClinicas, message: "Succesfully Historias Clinicas Recieved"});
+        return res.status(200).json({status: 200, data: historialClinico, message: "Succesfully Historias Clinicas Recieved"});
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
         return res.status(400).json({status: 400, message: e.message});
-    }*/
+    }
+}
 
 exports.createHistClinica = async function (req, res, next) {
     // Req.Body contains the form submit values.
@@ -64,28 +65,28 @@ exports.createHistClinica = async function (req, res, next) {
     }
 }
 
-exports.updateHistClinica = async function (req, res, next) {
+exports.updateHistorialClinico = async function (req, res, next) {
 
-    // Id is necessary for the update
-    if (!req.body._id) {
-        return res.status(400).json({status: 400., message: "Id must be present"})
-    }
-
-    var id = req.body._id;
-    var HistClinica = {
-        id,
-        peso: req.body.peso ? req.body.peso : null,
-        altura: req.body.altura ? req.body.altura : null,
-        fechaNac: req.body.fechaNac ? req.body.fechaNac : null,
-        grupoSan: req.body.grupoSan ? req.body.grupoSan : null,
-        fechaInicio: req.body.fechaInicio ? req.body.fechaInicio : null
-    }
-    try {
-        var updatedHistClinica = await HistCliService.updateHistorialClinico(HistClinica)
-        return res.status(200).json({status: 200, data: updatedHistClinica, message: "Succesfully Updated Historia Clinica"})
-    } catch (e) {
-        return res.status(400).json({status: 400., message: e.message})
-    }
+        // Id is necessary for the update
+        if (!req.body._id) {
+            return res.status(400).json({status: 400., message: "Id must be present"})
+        }
+    
+        var id = req.body._id;
+        var HistorialClinico = {
+            id,
+            peso: req.body.peso ? req.body.peso : null,
+            altura: req.body.altura ? req.body.altura : null,
+            grupoSan: req.body.grupoSan ? req.body.grupoSan : null,
+            fechaInicio: req.body.fechaInicio ? req.body.fechaInicio : null,
+            comentarios: req.body.comentarios ? req.body.comentarios : null,
+        }
+        try {
+            var updatedHistorialClinico = await HistorialClinicoService.updateHistorialClinico(HistorialClinico)
+            return res.status(200).json({status: 200, data: updatedHistorialClinico, message: "Succesfully Updated User"})
+        } catch (e) {
+            return res.status(400).json({status: 400., message: e.message})
+        }
 }
 
 exports.removeHistClinica = async function (req, res, next) {

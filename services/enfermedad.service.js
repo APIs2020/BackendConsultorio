@@ -63,8 +63,8 @@ exports.createEnfermedad = async function (enfermedad) {
     }
 }
 
-exports.updateEnfermedad = async function (Enfermedad) {
-    var id = Enfermedad.id
+exports.updateEnfermedad = async function (enfermedad) {
+    var id = enfermedad.id
     try {
         //Find the old User Object by the Id
         var oldEnfermedad = await Enfermedad.findById(id);
@@ -76,10 +76,11 @@ exports.updateEnfermedad = async function (Enfermedad) {
         return false;
     }
     //Edit the Enfermedad Object
-    oldEnfermedad.fechaIngreso = Enfermedad.fechaIngreso
-    oldEnfermedad.fechaEgreso = Enfermedad.fechaEgreso
-    oldEnfermedad.diagnostico = Enfermedad.diagnostico
-    oldEnfermedad.habitacion = Enfermedad.habitacion
+    oldEnfermedad.tipo = enfermedad.tipo ? enfermedad.tipo : oldEnfermedad.tipo
+    oldEnfermedad.nombre = enfermedad.nombre ? enfermedad.nombre : oldEnfermedad.nombre
+    oldEnfermedad.sintomas = enfermedad.sintomas ? enfermedad.sintomas : oldEnfermedad.sintomas
+    oldEnfermedad.fechaDiagnostico = enfermedad.fechaDiagnostico ? enfermedad.fechaDiagnostico : oldEnfermedad.fechaDiagnostico
+    oldEnfermedad.fechaAlta = enfermedad.fechaAlta ? enfermedad.fechaAlta : oldEnfermedad.fechaAlta
     try {
         var savedEnfermedad = await oldEnfermedad.save()
         return savedEnfermedad;

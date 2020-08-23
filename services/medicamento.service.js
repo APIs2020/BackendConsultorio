@@ -65,8 +65,8 @@ exports.createMedicamento = async function (medicamento) {
     }
 }
 
-exports.updateMedicamento = async function (Medicamento) {
-    var id = Medicamento.id
+exports.updateMedicamento = async function (medicamento) {
+    var id = medicamento.id
     try {
         //Find the old User Object by the Id
         var oldMedicamento = await Medicamento.findById(id);
@@ -78,12 +78,12 @@ exports.updateMedicamento = async function (Medicamento) {
         return false;
     }
     //Edit the Medicamento Object
-    oldMedicamento.fechaRecetado = Medicamento.fechaRecetado
-    oldMedicamento.fechaTerminado = Medicamento.fechaTerminado
-    oldMedicamento.nombre = Medicamento.nombre
-    oldMedicamento.droga = Medicamento.droga
-    oldMedicamento.dosis = Medicamento.dosis
-    oldMedicamento.frecuencia = Medicamento.frecuencia
+    oldMedicamento.fechaRecetado = medicamento.fechaRecetado ? medicamento.fechaRecetado : oldMedicamento.fechaRecetado
+    oldMedicamento.fechaTerminado = medicamento.fechaTerminado ? medicamento.fechaTerminado : oldMedicamento.fechaTerminado
+    oldMedicamento.nombre = medicamento.nombre ? medicamento.nombre : oldMedicamento.nombre
+    oldMedicamento.droga = medicamento.droga ? medicamento.droga : oldMedicamento.droga
+    oldMedicamento.dosis = medicamento.dosis ? medicamento.dosis : oldMedicamento.dosis
+    oldMedicamento.frecuencia = medicamento.frecuencia ? medicamento.frecuencia : oldMedicamento.frecuencia
 
     try {
         var savedMedicamento = await oldMedicamento.save()

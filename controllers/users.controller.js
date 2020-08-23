@@ -19,22 +19,6 @@ exports.getUsers = async function (req, res, next) {
     }
 }
 
-exports.getHistorialClinicoByUser = async function (req, res, next) {
-
-    // Check the existence of the query parameters, If doesn't exists assign a default value
-    var page = req.query.page ? req.query.page : 1
-    var limit = req.query.limit ? req.query.limit : 10;
-    var filtro = {_id : req.body._id};
-    try {
-        var historialClinico = await HistorialClinicoService.getHistorialesClinicos(filtro, page, limit)
-        // Return the Users list with the appropriate HTTP password Code and Message.
-        return res.status(200).json({status: 200, data: historialClinico, message: "Succesfully Historias Clinicas Recieved"});
-    } catch (e) {
-        //Return an Error Response Message with Code and the Error Message.
-        return res.status(400).json({status: 400, message: e.message});
-    }
-}
-
 exports.createUser = async function (req, res, next) {
 
     
@@ -88,30 +72,6 @@ exports.updateUser = async function (req, res, next) {
     try {
         var updatedUser = await UserService.updateUser(User)
         return res.status(200).json({status: 200, data: updatedUser, message: "Succesfully Updated User"})
-    } catch (e) {
-        return res.status(400).json({status: 400., message: e.message})
-    }
-}
-
-exports.updateHistorialClinicoUser = async function (req, res, next) {
-
-    // Id is necessary for the update
-    if (!req.body._id) {
-        return res.status(400).json({status: 400., message: "Id must be present"})
-    }
-
-    var id = req.body._id;
-    var HistorialClinico = {
-        id,
-        peso: req.body.peso ? req.body.peso : null,
-        altura: req.body.altura ? req.body.altura : null,
-        grupoSan: req.body.grupoSan ? req.body.grupoSan : null,
-        fechaInicio: req.body.fechaInicio ? req.body.fechaInicio : null,
-        comentarios: req.body.comentarios ? req.body.comentarios : null,
-    }
-    try {
-        var updatedHistorialClinico = await HistorialClinicoService.updateHistorialClinico(HistorialClinico)
-        return res.status(200).json({status: 200, data: updatedHistorialClinico, message: "Succesfully Updated User"})
     } catch (e) {
         return res.status(400).json({status: 400., message: e.message})
     }

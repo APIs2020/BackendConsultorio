@@ -150,31 +150,68 @@ exports.createHistorialClinico = async function (historialClinico) {
     }
 }
 
-exports.updateHistorialClinico = async function (histClinica) {
-    var id = histClinica.id
+exports.updateHistorialClinico = async function (historialClinico) {
+    var id = historialClinico.id
+
+    console.log("ID",id);
     try {
         //Find the old Historia Clinica Object by the Id
-        var oldHistClinica = await histClinica.findById(id);
+        var oldHistorialClinico = await HistorialClinico.findById(id);
     } catch (e) {
         throw Error("Error occured while Finding the Historia Clinica")
     }
     // If no old Historia Clinica Object exists return false
-    if (!oldHistClinica) {
+    if (!oldHistorialClinico) {
         return false;
     }
     //Edit the Historia Clinica Object
-    oldHistClinica.peso = histClinica.name
-    oldHistClinica.altura = histClinica.email
-    oldHistClinica.fechaNac = histClinica.password
-    var comentarios = [];
-    for(var i = 0; i < historialClinico.comentarios.length; i++) {
-        var obj = historialClinico.comentarios[i];
-        var comentario = await ComentarioService.createComentario(obj);
-        comentarios.push(comentario);
+    oldHistorialClinico.peso = historialClinico.peso ? historialClinico.peso : oldHistorialClinico.peso
+    oldHistorialClinico.altura = historialClinico.altura ? historialClinico.altura : oldHistorialClinico.altura
+    oldHistorialClinico.fechaNacimiento = historialClinico.fechaNacimiento ? historialClinico.fechaNacimiento : oldHistorialClinico.fechaNacimiento
+    //update comentarios
+    if(historialClinico.comentarios != null){
+        for(var i = 0; i < historialClinico.comentarios.length; i++) {
+            var obj = historialClinico.comentarios[i];
+            var comentario = await ComentarioService.createComentario(obj);
+            oldHistorialClinico.comentarios.push(comentario);
+        }
     }
+    //update enfermedades
+    if(historialClinico.enfermedades != null){
+        for(var i = 0; i < historialClinico.enfermedades.length; i++) {
+            var obj = historialClinico.comentarios[i];
+            var enfermedad = await EnfermedadService.createEnfermedad(obj);
+            oldHistorialClinico.enfermedades.push(enfermedad);
+        }
+    }
+    //update alergias
+    if(historialClinico.alergias != null){
+        for(var i = 0; i < historialClinico.alergias.length; i++) {
+            var obj = historialClinico.alergias[i];
+            var alergia = await AlergiaService.createAlergia(obj);
+            oldHistorialClinico.alergias.push(alergia);
+        }
+    }
+    //update medicamentos
+    if(historialClinico.medicamentos != null){
+        for(var i = 0; i < historialClinico.medicamentos.length; i++) {
+            var obj = historialClinico.medicamentos[i];
+            var medicamento = await MedicamentoService.createMedicamento(obj);
+            oldHistorialClinico.medicamentos.push(medicamento);
+        }
+    }
+    //update internaciones
+    if(historialClinico.internaciones != null){
+        for(var i = 0; i < historialClinico.internaciones.length; i++) {
+            var obj = historialClinico.internaciones[i];
+            var internacion = await InternacionService.createInternacion(obj);
+            oldHistorialClinico.internaciones.push(internacion);
+        }
+    }
+
     try {
-        var savedHistCli = await oldHistClinica.save()
-        return savedHistClinica;
+        var savedHistorialClinico = await oldHistorialClinico.save()
+        return savedHistorialClinico;
     } catch (e) {
         throw Error("And Error occured while updating the Historia Clinica");
     }

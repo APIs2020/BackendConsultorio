@@ -70,8 +70,8 @@ exports.updateComentario = async function (comentario) {
         return false;
     }
     //Edit the Comentario Object
-    oldComentario.fecha = comentario.fecha
-    oldComentario.descripcion = comentario.descripcion
+    oldComentario.fecha = comentario.fecha ? comentario.fecha : oldComentario.fecha
+    oldComentario.descripcion = comentario.descripcion ? comentario.fecha : oldComentario.fecha
     try {
         var savedComentario = await oldComentario.save()
         return savedComentario;

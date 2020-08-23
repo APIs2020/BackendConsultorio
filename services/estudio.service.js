@@ -67,7 +67,7 @@ exports.updateEstudio = async function (estudio) {
     var id = estudio.id
     try {
         //Find the old User Object by the Id
-        var oldEstudio = await estudio.findById(id);
+        var oldEstudio = await Estudio.findById(id);
     } catch (e) {
         throw Error("Error occured while Finding the Estudio")
     }
@@ -76,11 +76,11 @@ exports.updateEstudio = async function (estudio) {
         return false;
     }
     //Edit the Estudio Object
-    oldEstudio.fechaPedido = estudio.fechaPedido
-    oldEstudio.fechaRealizado = estudio.fechaRealizado
-    oldEstudio.tipo = estudio.tipo
-    oldEstudio.descripcion = estudio.descripcion
-    oldEstudio.resultado = estudio.resultado
+    oldEstudio.fechaPedido = estudio.fechaPedido ? estudio.fechaPedido : oldEstudio.fechaPedido
+    oldEstudio.fechaRealizado = estudio.fechaRealizado ? estudio.fechaRealizado : oldEstudio.fechaRealizado
+    oldEstudio.tipo = estudio.tipo ? estudio.tipo : oldEstudio.fechaRealizado
+    oldEstudio.descripcion = estudio.descripcion ? estudio.descripcion : oldEstudio.descripcion
+    oldEstudio.resultado = estudio.resultado ? estudio.resultado : oldEstudio.resultado
     try {
         var savedEstudio = await oldEstudio.save()
         return savedEstudio;

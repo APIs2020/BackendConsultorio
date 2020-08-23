@@ -75,14 +75,14 @@ exports.updateUser = async function (user) {
         return false;
     }
     //Edit the User Object
-    oldUser.name = user.name
-    oldUser.email = user.email
-    oldUser.password = user.password
-    oldUser.dni = user.dni
-    oldUser.fechaNacimiento = user.fechaNacimiento
-    oldUser.pisoDepto = user.pisoDepto
-    oldUser.telefono = user.telefono
-    oldUser.domicilio = user.domicilio
+    oldUser.name = user.name ? user.name : oldUser.name
+    oldUser.email = user.email ? user.email : oldUser.email
+    oldUser.password = user.password ? user.password : oldUser.password
+    oldUser.dni = user.dni ? user.dni : oldUser.dni
+    oldUser.fechaNacimiento = user.fechaNacimiento ? user.fechaNacimiento : oldUser.fechaNacimiento
+    oldUser.pisoDepto = user.pisoDepto ? user.pisoDepto : oldUser.pisoDepto
+    oldUser.telefono = user.telefono ? user.telefono : oldUser.telefono
+    oldUser.domicilio = user.domicilio ? user.domicilio : oldUser.domicilio
     try {
         var savedUser = await oldUser.save()
         return savedUser;

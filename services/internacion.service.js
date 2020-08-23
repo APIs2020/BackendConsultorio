@@ -65,7 +65,7 @@ exports.updateInternacion = async function (internacion) {
     var id = internacion.id
     try {
         //Find the old User Object by the Id
-        var oldInternacion = await internacion.findById(id);
+        var oldInternacion = await Internacion.findById(id);
     } catch (e) {
         throw Error("Error occured while Finding the Internacion")
     }
@@ -74,10 +74,10 @@ exports.updateInternacion = async function (internacion) {
         return false;
     }
     //Edit the Internacion Object
-    oldInternacion.fechaIngreso = internacion.fechaIngreso
-    oldInternacion.fechaEgreso = internacion.fechaEgreso
-    oldInternacion.diagnostico = internacion.diagnostico
-    oldInternacion.habitacion = internacion.habitacion
+    oldInternacion.fechaIngreso = internacion.fechaIngreso ? internacion.fechaIngreso : oldInternacion.fechaIngreso
+    oldInternacion.fechaEgreso = internacion.fechaEgreso ? internacion.fechaEgreso : oldInternacion.fechaEgreso
+    oldInternacion.diagnostico = internacion.diagnostico ? internacion.diagnostico : oldInternacion.diagnostico
+    oldInternacion.habitacion = internacion.habitacion ? internacion.habitacion : oldInternacion.habitacion
     try {
         var savedInternacion = await oldInternacion.save()
         return savedInternacion;

@@ -59,11 +59,11 @@ exports.createAlergia = async function (alergia) {
     }
 }
 
-exports.updatealergia = async function (alergia) {
+exports.updateAlergia = async function (alergia) {
     var id = alergia.id
     try {
         //Find the old User Object by the Id
-        var oldAlergia = await alergia.findById(id);
+        var oldAlergia = await Alergia.findById(id);
     } catch (e) {
         throw Error("Error occured while Finding the alergia")
     }
@@ -72,9 +72,9 @@ exports.updatealergia = async function (alergia) {
         return false;
     }
     //Edit the alergia Object
-    oldAlergia.fechaDiagnostico = alergia.fechaDiagnostico
-    oldAlergia.tipo = alergia.tipo
-    oldAlergia.descripcion = alergia.descripcion
+    oldAlergia.fechaDiagnostico = alergia.fechaDiagnostico  ? alergia.fechaDiagnostico : oldAlergia.fechaDiagnostico
+    oldAlergia.tipo = alergia.tipo ? alergia.tipo : oldAlergia.tipo
+    oldAlergia.descripcion = alergia.descripcion ? alergia.descripcion : oldAlergia.descripcion
     try {
         var savedAlergia = await oldAlergia.save()
         return savedAlergia;

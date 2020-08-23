@@ -12,13 +12,7 @@ var HistorialClinicoSchema = new mongoose.Schema({
     altura:String,
     grupoSan:String,
     fechaInicio:Date,
-    enfermedadesHereditarias:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:Enfermedades
-        }
-    ],
-    enfermedadesNoHereditarias:[
+    enfermedades:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:Enfermedades
