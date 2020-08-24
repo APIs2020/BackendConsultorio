@@ -16,7 +16,7 @@ exports.getDispTurnos = async function (query, page, limit) {
     }
     // Try Catch the awaited promise to handle the error 
     try {
-        var dispTurnos = await DispTurnos.paginate(query, options)
+        var dispTurnos = await DispTurno.paginate(query, options)
         // Return the Userd list that was retured by the mongoose promise
         return dispTurnos;
 
@@ -54,6 +54,28 @@ exports.createDispTurno = async function (dispTurno) {
         // return a Error message describing the reason 
         console.log(e)    
         throw Error("Error while Creating DispTurno")
+    }
+}
+
+exports.updateDispTurnos = async function (dispTurnos) {
+    var id = dispTurnos.id
+    try {
+        //Find the old User Object by the Id
+        var oldDispTurnos = await DispTurno.findById(id);
+    } catch (e) {
+        throw Error("Error occured while Finding the alergia")
+    }
+    // If no old alergia Object exists return false
+    if (!oldDispTurnos) {
+        return false;
+    }
+    //Edit the alergia Object
+    oldAlergia.turnos = dispTurnos.turnos
+    try {
+        var savedDispTurnos = await oldDispTurnos.save()
+        return savedDispTurnos;
+    } catch (e) {
+        throw Error("And Error occured while updating the disponibilidad turnos");
     }
 }
 

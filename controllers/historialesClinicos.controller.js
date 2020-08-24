@@ -104,7 +104,7 @@ exports.removeHistorialClinico = async function (req, res, next) {
     var id = req.body._id;
 
     var historialClinico = await HistorialClinicoService.getHistorialesClinicos({_id : id}, 1, 10);
-    
+
     //Eliminar alergias
     if(historialClinico.docs[0].alergias != undefined){
         for(var i = 0; i < historialClinico.docs[0].alergias.length; i++){

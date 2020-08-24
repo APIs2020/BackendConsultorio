@@ -8,6 +8,9 @@ var AlergiaController = require('../../controllers/alergias.controller');
 var MedicamentoController = require('../../controllers/medicamentos.controller');
 var EstudioController = require('../../controllers/estudios.controller');
 var InternacionController = require('../../controllers/internaciones.controller');
+var RecetasController = require('../../controllers/recetas.controller');
+var TurnosController = require('../../controllers/turnos.controller');
+var DispTurnosController = require('../../controllers/dispTurnos.controller');
 var Authorization = require('../../auth/authorization');
 
 
@@ -25,6 +28,19 @@ router.delete('/modificarHistorialClinico', Authorization, ComentarioController.
 router.put('/comentario', Authorization, ComentarioController.updateComentario)
 router.delete('/:id', Authorization, UserController.removeUser)
 router.post('/historialClinico',Authorization, HistorialClinicoController.getHistorialClinicoByUser)
+
+router.get('/recetas', Authorization, RecetasController.getRecetas);
+router.delete('/recetas', Authorization, RecetasController.removeReceta);
+router.post('/recetas', RecetasController.createReceta);
+
+router.get('/turnos',Authorization, TurnosController.getTurnos);
+router.delete('/turnos', Authorization, TurnosController.removeTurno);
+router.post('/turnos', TurnosController.createTurno);
+
+router.get('/dispTurnos', Authorization, DispTurnosController.getDispTurnos);
+router.post('/dispTurnos', DispTurnosController.createDispTurno);
+router.delete('/dispTurnos', Authorization, DispTurnosController.removeDispTurno);
+router.put('/dispTurnos', Authorization, DispTurnosController.updateDispTurnos);
 
 // Export the Router
 module.exports = router;

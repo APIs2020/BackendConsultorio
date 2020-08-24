@@ -16,9 +16,9 @@ exports.getTurnos = async function (query, page, limit) {
     }
     // Try Catch the awaited promise to handle the error 
     try {
-        var turnos = await Turnos.paginate(query, options)
+        var Turnos = await Turno.paginate(query, options)
         // Return the Userd list that was retured by the mongoose promise
-        return turnos;
+        return Turnos;
 
     } catch (e) {
         // return a Error message describing the reason 

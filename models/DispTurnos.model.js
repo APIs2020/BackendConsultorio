@@ -3,7 +3,7 @@ var mongoosePaginate = require('mongoose-paginate')
 
 var DispTurnoSchema = new mongoose.Schema({
     profesional:String,
-    fecha:Date
+    turnos:[Date]
 });
 
 DispTurnoSchema.plugin(mongoosePaginate)

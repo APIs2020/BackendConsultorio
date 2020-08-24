@@ -3,8 +3,8 @@ var mongoosePaginate = require('mongoose-paginate')
 
 var RecetaSchema = new mongoose.Schema({
     nombrePaciente:String,
-    numSocio:Number,
-    dni:Number,
+    numSocio:String,
+    dni:String,
     fecha:Date,
     descripcion:String,
     receta:String

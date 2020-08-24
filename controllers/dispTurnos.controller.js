@@ -10,7 +10,7 @@ exports.getDispTurnos = async function (req, res, next) {
     var page = req.query.page ? req.query.page : 1
     var limit = req.query.limit ? req.query.limit : 10;
     try {
-        var DispTurnos = await DispTurnosService.getRecetas({}, page, limit)
+        var DispTurnos = await DispTurnoService.getDispTurnos({}, page, limit)
         // Return the Recetas list with the appropriate HTTP password Code and Message.
         return res.status(200).json({status: 200, data: DispTurnos, message: "Succesfully DispTurnos Recieved"});
     } catch (e) {
@@ -38,6 +38,26 @@ exports.createDispTurno = async function (req, res, next) {
         //Return an Error Response Message with Code and the Error Message.
         console.log(e)
         return res.status(400).json({status: 400, message: "DispTurno Creation was Unsuccesfull"})
+    }
+}
+
+exports.updateDispTurnos = async function (req, res, next) {
+
+    // Id is necessary for the update
+    if (!req.body._id) {
+        return res.status(400).json({status: 400., message: "Id must be present"})
+    }
+
+    var id = req.body._id;
+    var DispTurnos = {
+        id,
+        turnos:req.body.turnos,
+    }
+    try {
+        var updatedDispTurno = await DispTurnoService.updateDispTurnos(DispTurnos)
+        return res.status(200).json({status: 200, data: updatedDispTurno, message: "Succesfully Updated Disponibilidad Turnos"})
+    } catch (e) {
+        return res.status(400).json({status: 400., message: e.message})
     }
 }
 

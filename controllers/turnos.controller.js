@@ -10,7 +10,7 @@ exports.getTurnos = async function (req, res, next) {
     var page = req.query.page ? req.query.page : 1
     var limit = req.query.limit ? req.query.limit : 10;
     try {
-        var Turnos = await TurnosService.getRecetas({}, page, limit)
+        var Turnos = await TurnoService.getTurnos({}, page, limit)
         // Return the Recetas list with the appropriate HTTP password Code and Message.
         return res.status(200).json({status: 200, data: Turnos, message: "Succesfully Turnos Recieved"});
     } catch (e) {
@@ -20,8 +20,6 @@ exports.getTurnos = async function (req, res, next) {
 }
 
 exports.createTurno = async function (req, res, next) {
-
-    
 
     // Req.Body contains the form submit values.
 

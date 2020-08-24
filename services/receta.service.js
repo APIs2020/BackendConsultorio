@@ -16,7 +16,7 @@ exports.getRecetas = async function (query, page, limit) {
     }
     // Try Catch the awaited promise to handle the error 
     try {
-        var recetas = await Recetas.paginate(query, options)
+        var recetas = await Receta.paginate(query, options)
         // Return the Userd list that was retured by the mongoose promise
         return recetas;
 
