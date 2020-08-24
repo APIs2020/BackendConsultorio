@@ -65,7 +65,7 @@ exports.updateAlergia = async function (req, res, next) {
 
 exports.removeAlergia = async function (req, res, next) {
 
-    var id = req.params.id;
+    var id = req.body.id;
     try {
         var deleted = await AlergiaService.deleteAlergia(id);
         res.status(200).send("Succesfully Deleted... ");

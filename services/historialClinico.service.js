@@ -20,7 +20,6 @@ exports.getHistorialesClinicos = async function (query, page, limit) {
         limit
     }
 
-    console.log("QUERY HISTORIAL", query)
     // Try Catch the awaited promise to handle the error 
     try {
         var historialClinico = await HistorialClinico.paginate(query, options)
@@ -235,4 +234,5 @@ exports.deleteHistorialClinico = async function (id) {
     } catch (e) {
         throw Error("Error Occured while Deleting the Historia Clinica")
     }
+
 }

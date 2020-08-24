@@ -1,5 +1,6 @@
 var UserService = require('../services/user.service');
 var HistorialClinicoService = require('../services/historialClinico.service');
+var HistorialClinicoController = require('./historialesClinicos.controller');
 // Saving the context of this module inside the _the variable
 _this = this;
 
@@ -20,9 +21,6 @@ exports.getUsers = async function (req, res, next) {
 }
 
 exports.createUser = async function (req, res, next) {
-
-    
-
     // Req.Body contains the form submit values.
 
     console.log("HISTORIAL CLINICO REQUIRE",req.body.historialClinico)
@@ -79,7 +77,21 @@ exports.updateUser = async function (req, res, next) {
 
 exports.removeUser = async function (req, res, next) {
 
-    var id = req.params.id;
+    var id = req.body._id;
+
+    var user = await UserService.getUsers({_id : id}, 1, 10);
+
+    req.body._id = user.docs[0].historialClinico;
+    //Eliminar historial clinico
+    if(req.body._id != undefined){
+        try {
+            var deleted = await HistorialClinicoController.removeHistorialClinico(req, res);
+            //res.status(200).send("Succesfully Deleted Historial Clinico... ");
+        } catch (e) {
+            return res.status(400).json({status: 400, message: e.message})
+        }
+    }
+
     try {
         var deleted = await UserService.deleteUser(id);
         res.status(200).send("Succesfully Deleted... ");
