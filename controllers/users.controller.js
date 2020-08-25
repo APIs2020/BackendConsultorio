@@ -23,6 +23,39 @@ exports.getUsers = async function (req, res, next) {
     }
 }
 
+exports.getUsersByTipo = async function (req, res, next) {
+
+    // Check the existence of the query parameters, If doesn't exists assign a default value
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    var filtro = {tipo : req.body.tipo};
+    try {
+        var Users = await UserService.getUsers(filtro, page, limit)
+        // Return the Users list with the appropriate HTTP password Code and Message.
+        return res.status(200).json({status: 200, data: Users, message: "Succesfully Users Recieved"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
+
+exports.getUsersByEspecialidad = async function (req, res, next) {
+
+    // Check the existence of the query parameters, If doesn't exists assign a default value
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    var filtro = {especialidad : req.body.especialidad};
+    try {
+        var Users = await UserService.getUsers(filtro, page, limit)
+        // Return the Users list with the appropriate HTTP password Code and Message.
+        console.log("USERS", Users)
+        return res.status(200).json({status: 200, data: Users, message: "Succesfully Users Recieved"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
+
 exports.createUser = async function (req, res, next) {
     // Req.Body contains the form submit values.
 
@@ -40,6 +73,7 @@ exports.createUser = async function (req, res, next) {
         telefono: req.body.tel,
         domicilio: req.body.domicilio,
         tipo: req.body.tipo,
+        especialidad: req.body.especialidad,
         historialClinico: historialClinico
     }
     try {
@@ -98,6 +132,7 @@ exports.updateUser = async function (req, res, next) {
         telefono: req.body.telefono ? req.body.telefono : null,
         domicilio: req.body.domicilio ? req.body.domicilio : null,
         tipo: req.body.tipo ? req.body.tipo : null,
+        especialidad: req.body.especialidad ? req.body.especialidad : null,
     }
     try {
         var updatedUser = await UserService.updateUser(User)

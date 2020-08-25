@@ -16,7 +16,7 @@ exports.getUsers = async function (query, page, limit) {
         page,
         limit
     }
-    
+    console.log("QUERY",query)
     // Try Catch the awaited promise to handle the error 
     try {
         var Users = await User.paginate(query, options)

@@ -14,6 +14,7 @@ var UserSchema = new mongoose.Schema({
     telefono:String,
     domicilio:String,
     tipo:Number,
+    especialidad:String,
     historialClinico: {
         type:mongoose.Schema.Types.ObjectId,    
         ref:HistorialClinico,

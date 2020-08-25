@@ -22,12 +22,15 @@ router.get('/test', function(req, res, next) {
 router.post('/registration', UserController.createUser)
 router.post('/login', UserController.loginUser)
 router.get('/', Authorization, UserController.getUsers)
+router.post('/getByEspecialidad', Authorization, UserController.getUsersByEspecialidad)
 router.put('/', Authorization, UserController.updateUser)
+router.delete('/:id', Authorization, UserController.removeUser)
+
 router.put('/modificarHistorialClinico', Authorization, HistorialClinicoController.updateHistorialClinico)
+router.post('/historialClinico',Authorization, HistorialClinicoController.getHistorialClinicoByUser)
+
 router.delete('/modificarHistorialClinico', Authorization, ComentarioController.removeComentario)
 router.put('/comentario', Authorization, ComentarioController.updateComentario)
-router.delete('/:id', Authorization, UserController.removeUser)
-router.post('/historialClinico',Authorization, HistorialClinicoController.getHistorialClinicoByUser)
 
 router.get('/recetas', Authorization, RecetasController.getRecetas);
 router.delete('/recetas', Authorization, RecetasController.removeReceta);
