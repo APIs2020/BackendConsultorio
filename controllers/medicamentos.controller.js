@@ -72,7 +72,7 @@ exports.updateMedicamento = async function (req, res, next) {
 
 exports.removeMedicamento = async function (req, res, next) {
 
-    var id = req.body.id;
+    var id = req.params.id;
     try {
         var deleted = await MedicamentoService.deleteMedicamento(id);
         res.status(200).send("Succesfully Deleted... ");

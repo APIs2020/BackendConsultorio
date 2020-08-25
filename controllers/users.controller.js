@@ -28,6 +28,7 @@ exports.createUser = async function (req, res, next) {
 
     var User = {
         name: req.body.name,
+        apellido : req.body.apellido,
         email: req.body.email,
         password: req.body.password,
         dni: req.body.dni,
@@ -40,7 +41,7 @@ exports.createUser = async function (req, res, next) {
     try {
         // Calling the Service function with the new object from the Request Body
         var createdUser = await UserService.createUser(User)
-        return res.status(201).json({token: createdUser, message: "Succesfully Created User"})
+        return res.status(201).json({createdUser, message: "Succesfully Created User"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
         console.log(e)
@@ -59,6 +60,7 @@ exports.updateUser = async function (req, res, next) {
     var User = {
         id,
         name: req.body.name ? req.body.name : null,
+        apellido: req.body.apellido ? req.body.apellido : null,
         email: req.body.email ? req.body.email : null,
         password: req.body.password ? req.body.password : null,
         dni: req.body.dni ? req.body.dni : null,
@@ -77,13 +79,13 @@ exports.updateUser = async function (req, res, next) {
 
 exports.removeUser = async function (req, res, next) {
 
-    var id = req.body._id;
+    var id = req.params.id;
 
     var user = await UserService.getUsers({_id : id}, 1, 10);
 
-    req.body._id = user.docs[0].historialClinico;
+    req.params.id = user.docs[0].historialClinico;
     //Eliminar historial clinico
-    if(req.body._id != undefined){
+    if(req.params.id != undefined){
         try {
             var deleted = await HistorialClinicoController.removeHistorialClinico(req, res);
             //res.status(200).send("Succesfully Deleted Historial Clinico... ");
@@ -103,18 +105,18 @@ exports.removeUser = async function (req, res, next) {
 
 exports.loginUser = async function (req, res, next) {
     // Req.Body contains the form submit values.
+
     var User = {
-        email: req.body.email,
+        dni: req.body.dni,
         password: req.body.password
     }
     try {
         // Calling the Service function with the new object from the Request Body
         var loginUser = await UserService.loginUser(User);
-        return res.status(201).json({token: loginUser, message: "Succesfully login"})
+        console.log("LOGIN USER",loginUser)
+        return res.status(201).json({loginUser, message: "Succesfully login"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
         return res.status(400).json({status: 400, message: "Invalid username or password"})
     }
 }
-    
-    

@@ -44,31 +44,6 @@ exports.createReceta = async function (req, res, next) {
     }
 }
 
-/*exports.updateMedicamento = async function (req, res, next) {
-
-    // Id is necessary for the update
-    if (!req.body._id) {
-        return res.status(400).json({status: 400., message: "Id must be present"})
-    }
-
-    var id = req.body._id;
-    var Medicamento = {
-        id,
-        fechaRecetado:req.body.fechaRecetado ? req.body.fechaRecetado : null,
-        fechaTerminado:req.body.fechaTerminado ? req.body.fechaTerminado : null,
-        nombre:req.body.nombre ? req.body.nombre : null,
-        droga:req.body.droga ? req.body.droga : null,
-        dosis:req.body.dosis ? req.body.dosis: null,
-        frecuencia:req.body.frecuencia ? req.body.frecuencia : null,
-    }
-    try {
-        var updatedMedicamento = await MedicamentoService.updateMedicamento(Medicamento)
-        return res.status(200).json({status: 200, data: updatedMedicamento, message: "Succesfully Updated Medicamento"})
-    } catch (e) {
-        return res.status(400).json({status: 400., message: e.message})
-    }
-}*/
-
 exports.removeReceta = async function (req, res, next) {
 
     var id = req.params.id;

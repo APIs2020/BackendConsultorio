@@ -5,6 +5,7 @@ var HistorialClinico = require('./HistorialClinico.model')
 
 var UserSchema = new mongoose.Schema({
     name: String,
+    apellido: String,
     email: String,
     dni: String,
     fechaNacimiento: Date,

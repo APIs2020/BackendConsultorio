@@ -20,7 +20,7 @@ router.get('/test', function(req, res, next) {
     res.send('Llegaste a api/user.routes');
   });
 router.post('/registration', UserController.createUser)
-router.post('/login/', UserController.loginUser)
+router.post('/login', UserController.loginUser)
 router.get('/', Authorization, UserController.getUsers)
 router.put('/', Authorization, UserController.updateUser)
 router.put('/modificarHistorialClinico', Authorization, HistorialClinicoController.updateHistorialClinico)

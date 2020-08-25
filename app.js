@@ -10,6 +10,9 @@ var apiRouter = require('./routes/api'); //Custom
 var bluebird = require('bluebird');
 var fs = require('fs');
 var app = express();
+var cors = require('cors')
+
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

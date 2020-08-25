@@ -68,7 +68,7 @@ exports.updateEstudio = async function (req, res, next) {
 
 exports.removeEstudio = async function (req, res, next) {
 
-    var id = req.body.id;
+    var id = req.params.id;
     try {
         var deleted = await EstudioService.deleteEstudio(id);
         res.status(200).send("Succesfully Deleted... ");

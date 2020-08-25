@@ -101,7 +101,7 @@ exports.updateHistorialClinico = async function (req, res, next) {
 
 exports.removeHistorialClinico = async function (req, res, next) {
 
-    var id = req.body._id;
+    var id = req.params.id;
 
     var historialClinico = await HistorialClinicoService.getHistorialesClinicos({_id : id}, 1, 10);
 

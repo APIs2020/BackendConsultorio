@@ -35,6 +35,7 @@ exports.createUser = async function (user) {
     var hashedPassword = bcrypt.hashSync(user.password, 8);
     var newUser = new User({
         name: user.name,
+        apellido : user.apellido,
         email: user.email,
         fechaNacimiento: new Date(),
         password: hashedPassword,
@@ -44,7 +45,6 @@ exports.createUser = async function (user) {
         domicilio:user.domicilio,
         historialClinico: user.historialClinico
     })
-
     try {
         // Saving the User 
         var savedUser = await newUser.save();
@@ -53,7 +53,13 @@ exports.createUser = async function (user) {
         }, process.env.SECRET, {
             expiresIn: 86400 // expires in 24 hours
         });
-        return token;
+
+        var createdUser = {
+            token:token,
+            user: savedUser
+        }
+
+        return createdUser;
     } catch (e) {
         // return a Error message describing the reason 
         console.log(e)    
@@ -75,6 +81,7 @@ exports.updateUser = async function (user) {
     }
     //Edit the User Object
     oldUser.name = user.name ? user.name : oldUser.name
+    oldUser.apellido = user.apellido ? user.apellido : oldUser.apellido
     oldUser.email = user.email ? user.email : oldUser.email
     oldUser.password = user.password ? user.password : oldUser.password
     oldUser.dni = user.dni ? user.dni : oldUser.dni
@@ -112,21 +119,29 @@ exports.loginUser = async function (user) {
     // Creating a new Mongoose Object by using the new keyword
     try {
         // Find the User 
-        var _details = await User.findOne({
-            email: user.email
-        });
+        var _details = await User.findOne(
+            {
+                dni: user.dni
+            },
+        );
+        if(_details == null) throw Error("No existe el usuario")
         var passwordIsValid = bcrypt.compareSync(user.password, _details.password);
-        if (!passwordIsValid) throw Error("Invalid username/password")
+        if (!passwordIsValid) throw Error("Invalid dni/password")
 
         var token = jwt.sign({
             id: _details._id
         }, process.env.SECRET, {
             expiresIn: 86400 // expires in 24 hours
         });
-        return token;
+
+        var loginUser = {
+            token: token,
+            user : _details
+        }
+        return loginUser;
     } catch (e) {
+        console.log("Entre catch", e)
         // return a Error message describing the reason     
         throw Error("Error while Login User")
     }
-
 }
