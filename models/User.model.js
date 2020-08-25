@@ -13,6 +13,7 @@ var UserSchema = new mongoose.Schema({
     password: String,
     telefono:String,
     domicilio:String,
+    tipo:Number,
     historialClinico: {
         type:mongoose.Schema.Types.ObjectId,    
         ref:HistorialClinico,

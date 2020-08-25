@@ -43,6 +43,7 @@ exports.createUser = async function (user) {
         pisoDepto:user.pisoDepto,
         telefono:user.tel,
         domicilio:user.domicilio,
+        tipo: user.tipo,
         historialClinico: user.historialClinico
     })
     try {
@@ -89,6 +90,7 @@ exports.updateUser = async function (user) {
     oldUser.pisoDepto = user.pisoDepto ? user.pisoDepto : oldUser.pisoDepto
     oldUser.telefono = user.telefono ? user.telefono : oldUser.telefono
     oldUser.domicilio = user.domicilio ? user.domicilio : oldUser.domicilio
+    oldUser.tipo = user.tipo ? user.tipo : oldUser.tipo
     try {
         var savedUser = await oldUser.save()
         return savedUser;

@@ -1,6 +1,9 @@
 var UserService = require('../services/user.service');
 var HistorialClinicoService = require('../services/historialClinico.service');
 var HistorialClinicoController = require('./historialesClinicos.controller');
+
+const nodemailer = require("nodemailer");
+
 // Saving the context of this module inside the _the variable
 _this = this;
 
@@ -36,11 +39,37 @@ exports.createUser = async function (req, res, next) {
         pisoDepto: req.body.pisoDepto,
         telefono: req.body.tel,
         domicilio: req.body.domicilio,
-        historialClinico: historialClinico,
+        tipo: req.body.tipo,
+        historialClinico: historialClinico
     }
     try {
         // Calling the Service function with the new object from the Request Body
         var createdUser = await UserService.createUser(User)
+
+        let cuerpo = "<html>Gracias por registrarte en Vital Care<br><br>Por favor, confirme su usuario haciendo clic aqui</html>"
+
+        let transporter = nodemailer.createTransport({
+            host: "email-smtp.sa-east-1.amazonaws.com",
+            port: 465,
+            secure: true, // true for 465, false for other ports
+            auth: {
+              user: "AKIAR4I6MM677CYBYJVM", // generated ethereal user
+              pass: 'BAGEGRHgeXiVoR0aI4kU8Ad8hUmrnX1DGmvPGZ6jkaXN', // generated ethereal password
+            },
+          });
+      
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+          from: '"Consultorio Vital Care" <admin@seconline.net.ar>', // sender address
+          to: User.email, // list of receivers
+          subject: "Confirme su usuario", // Subject line
+          text: "Gracias por registrarte en Vital Care. Por favor, confirme su usuario haciendo clic aqui",
+          html: cuerpo, // html body
+        });
+      
+        console.log("Message sent: %s", info.messageId);
+        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
         return res.status(201).json({createdUser, message: "Succesfully Created User"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
@@ -68,6 +97,7 @@ exports.updateUser = async function (req, res, next) {
         pisDepto: req.body.pisDepto ? req.body.pisDepto : null,
         telefono: req.body.telefono ? req.body.telefono : null,
         domicilio: req.body.domicilio ? req.body.domicilio : null,
+        tipo: req.body.tipo ? req.body.tipo : null,
     }
     try {
         var updatedUser = await UserService.updateUser(User)
