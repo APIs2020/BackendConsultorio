@@ -19,6 +19,47 @@ exports.getTurnos = async function (req, res, next) {
     }
 }
 
+exports.getTurnosByDNI = async function (req, res, next) {
+
+    //fecha a comparar
+    const fechaInicial = new Date();
+    const fechaFinal = new Date(fechaInicial.getFullYear(), fechaInicial.getMonth(), fechaInicial.getDate())
+
+    // Check the existence of the query parameters, If doesn't exists assign a default value
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    var filtro = {$and: [{dni: req.body.dni}, {fecha: {$gte: new Date(fechaFinal)}}]}
+    try {
+        var Turnos = await TurnoService.getTurnos(filtro, page, limit)
+        // Return the Recetas list with the appropriate HTTP password Code and Message.
+        return res.status(200).json({status: 200, data: Turnos, message: "Succesfully Turnos Recieved"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
+
+exports.getTurnosAnteriores = async function (req, res, next) {
+
+    //fecha a comparar
+    const fechaInicial = new Date();
+    const fechaFinal = new Date(fechaInicial.getFullYear(), fechaInicial.getMonth(), fechaInicial.getDate())
+
+    console.log("FECHA FINAL",fechaFinal)
+    // Check the existence of the query parameters, If doesn't exists assign a default value
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    var filtro = {fecha: {$lt: fechaFinal}}
+    try {
+        var Turnos = await TurnoService.getTurnos(filtro, page, limit)
+        // Return the Recetas list with the appropriate HTTP password Code and Message.
+        return res.status(200).json({status: 200, data: Turnos, message: "Succesfully Turnos Recieved"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
+
 exports.createTurno = async function (req, res, next) {
 
     // Req.Body contains the form submit values.
@@ -44,8 +85,9 @@ exports.createTurno = async function (req, res, next) {
 }
 
 exports.removeTurno = async function (req, res, next) {
-
-    var id = req.params.id;
+    
+    console.log("ENTRE REMOVE", req.params.id)
+    var id = req.body.id;
     try {
         var deleted = await TurnoService.deleteTurno(id);
         res.status(200).send("Succesfully Deleted... ");

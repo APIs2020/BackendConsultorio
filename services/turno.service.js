@@ -14,6 +14,7 @@ exports.getTurnos = async function (query, page, limit) {
         page,
         limit
     }
+    console.log("QUERY TURNOS", query)
     // Try Catch the awaited promise to handle the error 
     try {
         var Turnos = await Turno.paginate(query, options)

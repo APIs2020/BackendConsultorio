@@ -37,7 +37,9 @@ router.delete('/recetas', Authorization, RecetasController.removeReceta);
 router.post('/recetas', RecetasController.createReceta);
 
 router.get('/turnos',Authorization, TurnosController.getTurnos);
-router.delete('/turnos', Authorization, TurnosController.removeTurno);
+router.delete('/turnos/:id', Authorization, TurnosController.removeTurno);
+router.post('/getTurnosByDNI', Authorization, TurnosController.getTurnosByDNI);
+router.get('/getTurnosAnteriores', Authorization, TurnosController.getTurnosAnteriores);
 router.post('/turnos', TurnosController.createTurno);
 
 router.get('/dispTurnos', Authorization, DispTurnosController.getDispTurnos);
