@@ -16,7 +16,6 @@ exports.getUsers = async function (query, page, limit) {
         page,
         limit
     }
-    console.log("QUERY USER",query)
     // Try Catch the awaited promise to handle the error 
     try {
         var Users = await User.paginate(query, options)
@@ -37,11 +36,11 @@ exports.createUser = async function (user) {
         name: user.name,
         apellido : user.apellido,
         email: user.email,
-        fechaNacimiento: new Date(),
+        fechaNacimiento: user.fechaNacimiento,
         password: hashedPassword,
         dni:user.dni,
         pisoDepto:user.pisoDepto,
-        telefono:user.tel,
+        telefono:user.telefono,
         domicilio:user.domicilio,
         tipo: user.tipo,
         historialClinico: user.historialClinico
@@ -142,7 +141,6 @@ exports.loginUser = async function (user) {
         }
         return loginUser;
     } catch (e) {
-        console.log("Entre catch", e)
         // return a Error message describing the reason     
         throw Error("Error while Login User")
     }

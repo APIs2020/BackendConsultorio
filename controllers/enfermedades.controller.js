@@ -4,7 +4,7 @@ var HistorialClinicoService = require('../services/historialClinico.service');
 _this = this;
 
 // Async Controller function to get the To do List
-exports.getEnfermedadess = async function (req, res, next) {
+exports.getEnfermedades = async function (req, res, next) {
 
     // Check the existence of the query parameters, If doesn't exists assign a default value
     var page = req.query.page ? req.query.page : 1
@@ -13,6 +13,22 @@ exports.getEnfermedadess = async function (req, res, next) {
         var Enfermedades = await EnfermedadService.getEnfermedades({}, page, limit)
         // Return the Enfermedades list with the appropriate HTTP password Code and Message.
         return res.status(200).json({status: 200, data: Enfermedades, message: "Succesfully Enfermedades Recieved"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
+
+exports.getEnfermedadByID = async function (req, res, next) {
+
+    // Check the existence of the query parameters, If doesn't exists assign a default value
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    var filtro = {_id : req.body._id};
+    try {
+        var enfermedad = await EnfermedadService.getEnfermedades(filtro, page, limit)
+        // Return the Users list with the appropriate HTTP password Code and Message.
+        return res.status(200).json({status: 200, data: enfermedad, message: "Succesfully Enfermedad Recieved"});
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
         return res.status(400).json({status: 400, message: e.message});
@@ -32,7 +48,6 @@ exports.createEnfermedad = async function (req, res, next) {
         tipo:req.body.tipo,
         nombre: req.body.nombre,
         sintomas: req.body.sintomas,
-        fechaDiagnostico: req.body.fechaDiagnostico,
         fechaAlta: req.body.fechaAlta
     }
     try {
@@ -41,7 +56,6 @@ exports.createEnfermedad = async function (req, res, next) {
         return res.status(201).json({token: createdEnfermedad, message: "Succesfully Created Enfermedad"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
-        console.log(e)
         return res.status(400).json({status: 400, message: "Enfermedad Creation was Unsuccesfull"})
     }
 }

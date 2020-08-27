@@ -18,6 +18,22 @@ exports.getAlergias = async function (req, res, next) {
     }
 }
 
+exports.getAlergiaByID = async function (req, res, next) {
+
+    // Check the existence of the query parameters, If doesn't exists assign a default value
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    var filtro = {_id : req.body._id};
+    try {
+        var alergia = await AlergiaService.getAlergias(filtro, page, limit)
+        // Return the Users list with the appropriate HTTP password Code and Message.
+        return res.status(200).json({status: 200, data: alergia, message: "Succesfully Alergia Recieved"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
+
 exports.createAlergia = async function (req, res, next) {
 
     
@@ -25,9 +41,8 @@ exports.createAlergia = async function (req, res, next) {
     // Req.Body contains the form submit values.
 
     var Alergia = {
-        fechaDiagnostico: req.body.fechaDiagnostico,
-        tipo: req.body.tipo,
-        descripcion: req.body.descripcion,
+        tipo: req.body.tipo ? req.body.tipo : null,
+        descripcion: req.body.descripcion ? req.body.descripcion : null,
         
     }
     try {
@@ -36,7 +51,6 @@ exports.createAlergia = async function (req, res, next) {
         return res.status(201).json({token: createdAlergia, message: "Succesfully Created Alergia"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
-        console.log(e)
         return res.status(400).json({status: 400, message: "Alergia Creation was Unsuccesfull"})
     }
 }

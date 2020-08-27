@@ -19,6 +19,22 @@ exports.getMedicamentos = async function (req, res, next) {
     }
 }
 
+exports.getMedicamentoByID = async function (req, res, next) {
+
+    // Check the existence of the query parameters, If doesn't exists assign a default value
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    var filtro = {_id : req.body._id};
+    try {
+        var medicamento = await MedicamentoService.getMedicamentos(filtro, page, limit)
+        // Return the Users list with the appropriate HTTP password Code and Message.
+        return res.status(200).json({status: 200, data: medicamento, message: "Succesfully Medicamento Recieved"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
+
 exports.createMedicamento = async function (req, res, next) {
 
     
@@ -26,7 +42,6 @@ exports.createMedicamento = async function (req, res, next) {
     // Req.Body contains the form submit values.
 
     var Medicamento = {
-        fechaRecetado:req.body.fechaRecetado,
         fechaTerminado:req.body.fechaTerminado,
         nombre:req.body.nombre,
         droga:req.body.droga,
@@ -40,7 +55,6 @@ exports.createMedicamento = async function (req, res, next) {
         return res.status(201).json({token: createdMedicamento, message: "Succesfully Created Medicamento"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
-        console.log(e)
         return res.status(400).json({status: 400, message: "Medicamento Creation was Unsuccesfull"})
     }
 }

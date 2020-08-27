@@ -22,11 +22,12 @@ exports.getEnfermedades = async function (query, page, limit) {
 
     } catch (e) {
         // return a Error message describing the reason 
-        throw Error('Error while Paginating Enfermedads');
+        throw Error('Error while Paginating Enfermedades');
     }
 }
 
 exports.createEnfermedad = async function (enfermedad) {
+
 
     // Creating a new Mongoose Object by using the new keyword
     if(enfermedad == null){
@@ -38,12 +39,13 @@ exports.createEnfermedad = async function (enfermedad) {
             fechaAlta: "" 
         })
     } else {
+        const json = JSON.parse(enfermedad);
         var newEnfermedad = new Enfermedad({
-            tipo:enfermedad.tipo,
-            nombre:enfermedad.nombre,
-            sintomas: enfermedad.sintomas,
-            fechaDiagnostico: enfermedad.fechaDiagnostico,
-            fechaAlta: enfermedad.fechaAlta
+            tipo:json.tipo,
+            nombre:json.nombre,
+            sintomas: json.sintomas,
+            fechaDiagnostico: new Date(),
+            fechaAlta: json.fechaAlta
         })
     }
     

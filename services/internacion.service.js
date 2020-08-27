@@ -37,11 +37,12 @@ exports.createInternacion = async function (internacion) {
             habitacion: ""
         })
     } else {
+        const json = JSON.parse(internacion);
         var newInternacion = new Internacion({
-            fechaIngreso: internacion.fechaEgreso,
-            fechaEgreso: internacion.fechaEgreso,
-            diagnostico: internacion.diagnostico,
-            habitacion: internacion.habitacion
+            fechaIngreso: new Date(),
+            fechaEgreso: json.fechaEgreso,
+            diagnostico: json.diagnostico,
+            habitacion: json.habitacion
         })
     }
 

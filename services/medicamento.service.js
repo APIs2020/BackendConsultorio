@@ -39,13 +39,14 @@ exports.createMedicamento = async function (medicamento) {
             frecuencia:"",
         })
     } else {
+        const json = JSON.parse(comentario);
         var newMedicamento = new Medicamento({
-            fechaRecetado:medicamento.fechaRecetado,
-            fechaTerminado:medicamento.fechaTerminado,
-            nombre:medicamento.nombre,
-            droga:medicamento.droga,
-            dosis:medicamento.dosis,
-            frecuencia:medicamento.frecuencia,
+            fechaRecetado:new Date(),
+            fechaTerminado:json.fechaTerminado,
+            nombre:json.nombre,
+            droga:json.droga,
+            dosis:json.dosis,
+            frecuencia:json.frecuencia,
         })
     }
 

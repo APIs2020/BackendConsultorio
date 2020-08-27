@@ -19,6 +19,22 @@ exports.getComentarios = async function (req, res, next) {
     }
 }
 
+exports.getComentarioByID = async function (req, res, next) {
+
+    // Check the existence of the query parameters, If doesn't exists assign a default value
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    var filtro = {_id : req.body._id};
+    try {
+        var comentario = await ComentarioService.getComentarios(filtro, page, limit)
+        // Return the Users list with the appropriate HTTP password Code and Message.
+        return res.status(200).json({status: 200, data: comentario, message: "Succesfully Comentario Recieved"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
+
 exports.createComentario = async function (req, res, next) {
 
     
@@ -29,7 +45,6 @@ exports.createComentario = async function (req, res, next) {
     var historialClinico = await HistorialClinicoService.createHistorialClinico(req.body.historialClinico);
 
     var Comentario = {
-        fecha: req.body.fecha ? req.body.fecha : null,
         descripcion: req.body.descripcion ? req.body.descripcion : null
     }
     try {
@@ -38,7 +53,6 @@ exports.createComentario = async function (req, res, next) {
         return res.status(201).json({token: createdComentario, message: "Succesfully Created Comentario"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
-        console.log(e)
         return res.status(400).json({status: 400, message: "Comentario Creation was Unsuccesfull"})
     }
 }

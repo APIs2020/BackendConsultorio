@@ -155,8 +155,6 @@ exports.createHistorialClinico = async function (historialClinico) {
 
 exports.updateHistorialClinico = async function (historialClinico) {
     var id = historialClinico.id
-
-    console.log("ID",id);
     try {
         //Find the old Historia Clinica Object by the Id
         var oldHistorialClinico = await HistorialClinico.findById(id);
@@ -172,44 +170,60 @@ exports.updateHistorialClinico = async function (historialClinico) {
     oldHistorialClinico.altura = historialClinico.altura ? historialClinico.altura : oldHistorialClinico.altura
     oldHistorialClinico.fechaNacimiento = historialClinico.fechaNacimiento ? historialClinico.fechaNacimiento : oldHistorialClinico.fechaNacimiento
     //update comentarios
-    if(historialClinico.comentarios != null){
-        for(var i = 0; i < historialClinico.comentarios.length; i++) {
-            var obj = historialClinico.comentarios[i];
-            var comentario = await ComentarioService.createComentario(obj);
+    try {
+        if(historialClinico.comentarios != null){
+            console.log("ENTRE COMENTARIOS", historialClinico.comentarios)
+            var comentario = await ComentarioService.createComentario(historialClinico.comentarios);
             oldHistorialClinico.comentarios.push(comentario);
-        }
+            }
+    } catch (e){
+        throw Error("Error occured while creating comentario")
     }
     //update enfermedades
-    if(historialClinico.enfermedades != null){
-        for(var i = 0; i < historialClinico.enfermedades.length; i++) {
-            var obj = historialClinico.comentarios[i];
-            var enfermedad = await EnfermedadService.createEnfermedad(obj);
+    try {
+        if(historialClinico.enfermedades != null){
+            var enfermedad = await EnfermedadService.createEnfermedad(historialClinico.enfermedades);
             oldHistorialClinico.enfermedades.push(enfermedad);
-        }
+            }
+    } catch (e){
+        throw Error("Error occured while creating enfermedad")
     }
     //update alergias
-    if(historialClinico.alergias != null){
-        for(var i = 0; i < historialClinico.alergias.length; i++) {
-            var obj = historialClinico.alergias[i];
-            var alergia = await AlergiaService.createAlergia(obj);
+    try {
+        if(historialClinico.alergias != null){
+            var alergia = await AlergiaService.createAlergia(historialClinico.alergias);
             oldHistorialClinico.alergias.push(alergia);
-        }
+            }
+    } catch (e){
+        throw Error("Error occured while creating Alergia")
     }
     //update medicamentos
-    if(historialClinico.medicamentos != null){
-        for(var i = 0; i < historialClinico.medicamentos.length; i++) {
-            var obj = historialClinico.medicamentos[i];
-            var medicamento = await MedicamentoService.createMedicamento(obj);
+    try {
+        if(historialClinico.medicamentos != null){
+            var medicamento = await MedicamentoService.createMedicamento(historialClinico.medicamentos);
             oldHistorialClinico.medicamentos.push(medicamento);
-        }
+            }
+    } catch (e){
+        throw Error("Error occured while creating medicamento")
     }
     //update internaciones
-    if(historialClinico.internaciones != null){
-        for(var i = 0; i < historialClinico.internaciones.length; i++) {
-            var obj = historialClinico.internaciones[i];
-            var internacion = await InternacionService.createInternacion(obj);
-            oldHistorialClinico.internaciones.push(internacion);
-        }
+    try {
+        if(historialClinico.internaciones != null){
+            var internacion = await InternacionService.createInternacion(historialClinico.internaciones);
+            oldHistorialClinico.internaciones.push(internaciones);
+            }
+    } catch (e){
+        throw Error("Error occured while creating internacion")
+    }
+
+    //update estudios
+    try {
+        if(historialClinico.estudios != null){
+            var estudio = await EstudioService.createEstudio(historialClinico.estudios);
+            oldHistorialClinico.estudios.push(estudio);
+            }
+    } catch (e){
+        throw Error("Error occured while creating estudio")
     }
 
     try {

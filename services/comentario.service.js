@@ -35,9 +35,10 @@ exports.createComentario = async function (comentario) {
             descripcion:""
         })
     } else {
+        const json = JSON.parse(comentario);
         var newComentario = new Comentario({
-            fecha: comentario.fecha,
-            descripcion:comentario.descripcion
+            fecha: new Date(),
+            descripcion:json.descripcion,
         })
     }
 
@@ -52,7 +53,6 @@ exports.createComentario = async function (comentario) {
         return savedComentario._id;
     } catch (e) {
         // return a Error message describing the reason 
-        console.log(e)    
         throw Error("Error while Creating Comentario")
     }
 }

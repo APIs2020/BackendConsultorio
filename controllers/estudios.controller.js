@@ -18,6 +18,22 @@ exports.getEstudios = async function (req, res, next) {
     }
 }
 
+exports.getEstudioByID = async function (req, res, next) {
+
+    // Check the existence of the query parameters, If doesn't exists assign a default value
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    var filtro = {_id : req.body._id};
+    try {
+        var estudio = await EstudioService.getEstudios(filtro, page, limit)
+        // Return the Users list with the appropriate HTTP password Code and Message.
+        return res.status(200).json({status: 200, data: estudio, message: "Succesfully Estudio Recieved"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
+
 exports.createEstudio = async function (req, res, next) {
 
     
@@ -25,7 +41,6 @@ exports.createEstudio = async function (req, res, next) {
     // Req.Body contains the form submit values.
 
     var Estudio = {
-        fechaPedido:req.body.fechaPedido,
         fechaRealizado:req.body.fechaRealizado,
         tipo:req.body.tipo,
         descripcion:req.body.descripcion,
@@ -37,7 +52,6 @@ exports.createEstudio = async function (req, res, next) {
         return res.status(201).json({token: createdEstudio, message: "Succesfully Created Estudio"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
-        console.log(e)
         return res.status(400).json({status: 400, message: "Estudio Creation was Unsuccesfull"})
     }
 }

@@ -36,10 +36,11 @@ exports.createAlergia = async function (alergia) {
             descripcion:""
         })
     } else {
+        const json = JSON.parse(alergia);
         var newAlergia = new Alergia({
-            fechaDiagnostico: alergia.fechaDiagnostico,
-            tipo: alergia.tipo,
-            descripcion: alergia.descripcion
+            fechaDiagnostico: new Date(),
+            tipo: json.tipo,
+            descripcion: json.descripcion
         })
     }
 
@@ -54,7 +55,6 @@ exports.createAlergia = async function (alergia) {
         return savedAlergia._id;
     } catch (e) {
         // return a Error message describing the reason 
-        console.log(e)    
         throw Error("Error while Creating alergia")
     }
 }

@@ -48,7 +48,22 @@ exports.getUsersByEspecialidad = async function (req, res, next) {
     try {
         var Users = await UserService.getUsers(filtro, page, limit)
         // Return the Users list with the appropriate HTTP password Code and Message.
-        console.log("USERS", Users)
+        return res.status(200).json({status: 200, data: Users, message: "Succesfully Users Recieved"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
+    }
+}
+
+exports.getUsersByDNI = async function (req, res, next) {
+
+    // Check the existence of the query parameters, If doesn't exists assign a default value
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    var filtro = {dni : req.body.dni};
+    try {
+        var Users = await UserService.getUsers(filtro, page, limit)
+        // Return the Users list with the appropriate HTTP password Code and Message.
         return res.status(200).json({status: 200, data: Users, message: "Succesfully Users Recieved"});
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
@@ -59,7 +74,6 @@ exports.getUsersByEspecialidad = async function (req, res, next) {
 exports.createUser = async function (req, res, next) {
     // Req.Body contains the form submit values.
 
-    console.log("HISTORIAL CLINICO REQUIRE",req.body.historialClinico)
     var historialClinico = await HistorialClinicoService.createHistorialClinico(req.body.historialClinico);
 
     var User = {
@@ -178,7 +192,6 @@ exports.loginUser = async function (req, res, next) {
     try {
         // Calling the Service function with the new object from the Request Body
         var loginUser = await UserService.loginUser(User);
-        console.log("LOGIN USER",loginUser)
         return res.status(201).json({loginUser, message: "Succesfully login"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.

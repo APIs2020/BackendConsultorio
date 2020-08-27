@@ -38,12 +38,13 @@ exports.createEstudio = async function (estudio) {
             resultado:"",
         })
     } else {
+        const json = JSON.parse(estudio);
         var newEstudio = new Estudio({
-            fechaPedido:estudio.fechaPedido,
-            fechaRealizado:estudio.fechaRealizado,
-            tipo:estudio.tipo,
-            descripcion:estudio.descripcion,
-            resultado:estudio.resultado
+            fechaPedido:new Date(),
+            fechaRealizado:json.fechaRealizado,
+            tipo:json.tipo,
+            descripcion:json.descripcion,
+            resultado:json.resultado
         })
     }
 

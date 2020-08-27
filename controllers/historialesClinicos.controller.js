@@ -24,7 +24,7 @@ exports.getHistorialesClinicos = async function (req, res, next) {
     }
 }
 
-exports.getHistorialClinicoByUser = async function (req, res, next) {
+exports.getHistoriaClinicaByID = async function (req, res, next) {
 
     // Check the existence of the query parameters, If doesn't exists assign a default value
     var page = req.query.page ? req.query.page : 1
@@ -42,7 +42,6 @@ exports.getHistorialClinicoByUser = async function (req, res, next) {
 
 exports.createHistorialClinico = async function (req, res, next) {
     // Req.Body contains the form submit values.
-    console.log("BODY REQ CREATE HIST CLINICA",req.body)
     if(req.body == null){
         var HistorialClinica = {
             peso: "",
@@ -58,7 +57,6 @@ exports.createHistorialClinico = async function (req, res, next) {
             fechaInicio: req.body.fechaInicio
         }
     }
-    console.log("var HistorialClinia")
     try {
         // Calling the Service function with the new object from the Request Body
         var createdHistorialClinica = await HistorialClinicoService.createHistorialClinico(HistorialClinica)
@@ -78,6 +76,7 @@ exports.updateHistorialClinico = async function (req, res, next) {
         }
     
         var id = req.body._id;
+        console.log("COMENTARIOS QUE LLEGAN", req.body.comentarios);
         var HistorialClinico = {
             id,
             peso: req.body.peso ? req.body.peso : null,
